@@ -137,15 +137,13 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                     <span data-aos="fade-up" data-aos-delay="800" className="inline-block px-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                       Portfolio
                     </span>{' '}
-                    <span data-aos="fade-up" data-aos-delay="1000" className="inline-block px-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                      Website
-                    </span>
+                   
                   </div>
                 </h1>
               </motion.div>
 
               {/* Website Link */}
-              <motion.div 
+              {/* <motion.div 
                 className="text-center"
                 variants={childVariants}
                 data-aos="fade-up"
@@ -165,7 +163,7 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                     </span>
                   </div>
                 </a>
-              </motion.div>
+              </motion.div> */}
             </div>
           </div>
         </motion.div>
