@@ -6,9 +6,6 @@ import { supabase } from "../supabase";
 // For prop validation (used in TabPanel)
 import PropTypes from "prop-types";
 
-// Swipe functionality for tabs (mobile friendly)
-import SwipeableViews from "react-swipeable-views";
-
 // Material UI Tabs system
 import { useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
@@ -285,7 +282,7 @@ export default function Portfolio() {
         </AppBar>
 
         {/* ===== TAB CONTENT ===== */}
-        <SwipeableViews axis={theme.direction === "rtl" ? "x-reverse" : "x"} index={value} onChangeIndex={setValue}>
+        <>
 
           {/* PROJECTS TAB */}
           <TabPanel value={value} index={0} dir={theme.direction}>
@@ -339,7 +336,7 @@ export default function Portfolio() {
             </div>
           </TabPanel>
 
-        </SwipeableViews>
+        </>
       </Box>
     </div>
   );
