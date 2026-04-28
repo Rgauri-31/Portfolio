@@ -436,22 +436,6 @@ const Komentar = () => {
                     )}
                 </div>
             </div>
-            <style jsx>{`
-                .custom-scrollbar::-webkit-scrollbar {
-                    width: 6px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-track {
-                    background: rgba(255, 255, 255, 0.05);
-                    border-radius: 6px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-thumb {
-                    background: rgba(99, 102, 241, 0.5);
-                    border-radius: 6px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                    background: rgba(99, 102, 241, 0.7);
-                }
-            `}</style>
         </div>
     );
 };
