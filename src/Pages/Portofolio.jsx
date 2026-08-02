@@ -132,6 +132,55 @@ const techStacks = [
   { icon: "canva.svg", language: "Canva" },
 ];
 
+const DEFAULT_PROJECTS = [
+  {
+    id: 1,
+    Title: "EduTrack",
+    Description: "Comprehensive attendance & term-work management system for academic tracking, subject-wise attendance upload automation, and marks calculation.",
+    Img: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=800&q=80",
+    Link: "https://github.com/Rgauri-31/EduTrack",
+    Github: "https://github.com/Rgauri-31/EduTrack",
+    Status: "Completed",
+    TechStack: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
+    Features: [
+      "Automated PDF Attendance Parsing & Roll Number Extraction",
+      "Term Work & Marks Calculation Engine",
+      "Student & Faculty Academic Portals",
+      "Subject-wise Attendance & Performance Analytics"
+    ]
+  },
+  {
+    id: 2,
+    Title: "KhaoKhilao.com",
+    Description: "A full-featured food ordering and restaurant web platform providing seamless food item browsing, cart management, and interactive dining experience.",
+    Img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
+    Link: "https://github.com/Rgauri-31/KhaoKhilao.com",
+    Github: "https://github.com/Rgauri-31/KhaoKhilao.com",
+    Status: "Completed",
+    TechStack: ["React", "JavaScript", "Tailwind CSS", "Node.js"],
+    Features: [
+      "Interactive Food Menu & Dish Categorization",
+      "Real-time Cart Management & Order Summary",
+      "Modern Responsive Dark/Light UI Design"
+    ]
+  },
+  {
+    id: 3,
+    Title: "IceCream Chrome Extension",
+    Description: "A fast, lightweight Chrome browser extension designed for quick browser utilities, custom popup interface, and interactive user features.",
+    Img: "https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=800&q=80",
+    Link: "https://github.com/Rgauri-31/IceCream_Chrome_Extension",
+    Github: "https://github.com/Rgauri-31/IceCream_Chrome_Extension",
+    Status: "Completed",
+    TechStack: ["JavaScript", "HTML", "CSS", "Chrome Extension API"],
+    Features: [
+      "Custom Popup Interface for Chrome Toolbar",
+      "Fast & Lightweight Browser Integration",
+      "Interactive Quick Tools & Controls"
+    ]
+  }
+];
+
 /* --------------------------------------------
    MAIN PORTFOLIO COMPONENT
 --------------------------------------------- */
@@ -141,8 +190,8 @@ export default function Portfolio() {
   // Active tab (0 = Projects, 1 = Certificates, 2 = Tech Stack)
   const [value, setValue] = useState(0);
 
-  // Data from Supabase
-  const [projects, setProjects] = useState([]);
+  // Data from Supabase with default fallback
+  const [projects, setProjects] = useState(DEFAULT_PROJECTS);
   const [certificates, setCertificates] = useState([]);
 
   // Show more toggle states
@@ -171,46 +220,8 @@ export default function Portfolio() {
   }, []);
 
   /* --------------------------------------------
-   Default Projects Fallback
---------------------------------------------- */
-const DEFAULT_PROJECTS = [
-  {
-    id: 1,
-    Title: "EduTrack — Term Work Management",
-    Description: "A full-stack academic platform that automates engineering college Term Work (TW) evaluation, student attendance PDF parsing, marks entry, and automated report exports.",
-    Img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80",
-    Link: "https://github.com/Rgauri-31/EduTrack",
-    Github: "https://github.com/Rgauri-31/EduTrack",
-    Status: "Completed",
-    Features: [
-      "Automated PDF & Excel Attendance Parsing",
-      "Role-Based Access (Admin & Teacher Portals)",
-      "Automated TW Score Calculation & Locking",
-      "Excel Report Generation & Export"
-    ],
-    TechStack: ["React 19", "Node.js", "Express", "MongoDB", "Tailwind CSS"]
-  },
-  {
-    id: 2,
-    Title: "FinPilot — Financial Planning Platform",
-    Description: "Interactive personal finance management web app to track budgets, analyze daily expenses, and visualize financial growth through interactive analytics.",
-    Img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-    Link: "https://github.com/Rgauri-31",
-    Github: "https://github.com/Rgauri-31",
-    Status: "Completed",
-    Features: [
-      "Real-time Expense & Income Tracking",
-      "Interactive Financial Charts & Analytics",
-      "Budget Allocation Planner",
-      "Responsive Dark Dashboard"
-    ],
-    TechStack: ["React", "Node.js", "Express", "Tailwind CSS", "Recharts"]
-  }
-];
-
-/* --------------------------------------------
-   Fetch Data from Supabase
---------------------------------------------- */
+     Fetch Data from Supabase
+  --------------------------------------------- */
   const fetchData = useCallback(async () => {
   try {
     const [projectsResponse, certificatesResponse] = await Promise.all([
@@ -218,10 +229,12 @@ const DEFAULT_PROJECTS = [
       supabase.from("certificates").select("*").order("id", { ascending: true }),
     ]);
 
+    if (projectsResponse.error) throw projectsResponse.error;
+    if (certificatesResponse.error) throw certificatesResponse.error;
+
     const projectData = (projectsResponse.data && projectsResponse.data.length > 0) 
       ? projectsResponse.data 
       : DEFAULT_PROJECTS;
-      
     const certData = certificatesResponse.data || [];
 
     setProjects(projectData);
@@ -231,7 +244,6 @@ const DEFAULT_PROJECTS = [
     localStorage.setItem("certificates", JSON.stringify(certData));
   } catch (error) {
     console.error("Supabase Fetch Error:", error.message);
-    setProjects(DEFAULT_PROJECTS);
   }
 }, []);
 
@@ -243,7 +255,10 @@ const DEFAULT_PROJECTS = [
     const cachedCertificates = localStorage.getItem("certificates");
 
     if (cachedProjects && cachedCertificates) {
-      setProjects(JSON.parse(cachedProjects));
+      const parsed = JSON.parse(cachedProjects);
+      if (parsed && parsed.length > 0) {
+        setProjects(parsed);
+      }
       setCertificates(JSON.parse(cachedCertificates));
     }
 

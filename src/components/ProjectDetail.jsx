@@ -53,35 +53,49 @@ const FeatureItem = ({ feature }) => {
 const DEFAULT_PROJECTS = [
   {
     id: 1,
-    Title: "EduTrack — Term Work Management",
-    Description: "A full-stack academic platform that automates engineering college Term Work (TW) evaluation, student attendance PDF parsing, marks entry, and automated report exports.",
-    Img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80",
+    Title: "EduTrack",
+    Description: "Comprehensive attendance & term-work management system for academic tracking, subject-wise attendance upload automation, and marks calculation.",
+    Img: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=800&q=80",
     Link: "https://github.com/Rgauri-31/EduTrack",
     Github: "https://github.com/Rgauri-31/EduTrack",
     Status: "Completed",
+    TechStack: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
     Features: [
-      "Automated PDF & Excel Attendance Parsing",
-      "Role-Based Access (Admin & Teacher Portals)",
-      "Automated TW Score Calculation & Locking",
-      "Excel Report Generation & Export"
-    ],
-    TechStack: ["React 19", "Node.js", "Express", "MongoDB", "Tailwind CSS"]
+      "Automated PDF Attendance Parsing & Roll Number Extraction",
+      "Term Work & Marks Calculation Engine",
+      "Student & Faculty Academic Portals",
+      "Subject-wise Attendance & Performance Analytics"
+    ]
   },
   {
     id: 2,
-    Title: "FinPilot — Financial Planning Platform",
-    Description: "Interactive personal finance management web app to track budgets, analyze daily expenses, and visualize financial growth through interactive analytics.",
-    Img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-    Link: "https://github.com/Rgauri-31",
-    Github: "https://github.com/Rgauri-31",
+    Title: "KhaoKhilao.com",
+    Description: "A full-featured food ordering and restaurant web platform providing seamless food item browsing, cart management, and interactive dining experience.",
+    Img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
+    Link: "https://github.com/Rgauri-31/KhaoKhilao.com",
+    Github: "https://github.com/Rgauri-31/KhaoKhilao.com",
     Status: "Completed",
+    TechStack: ["React", "JavaScript", "Tailwind CSS", "Node.js"],
     Features: [
-      "Real-time Expense & Income Tracking",
-      "Interactive Financial Charts & Analytics",
-      "Budget Allocation Planner",
-      "Responsive Dark Dashboard"
-    ],
-    TechStack: ["React", "Node.js", "Express", "Tailwind CSS", "Recharts"]
+      "Interactive Food Menu & Dish Categorization",
+      "Real-time Cart Management & Order Summary",
+      "Modern Responsive Dark/Light UI Design"
+    ]
+  },
+  {
+    id: 3,
+    Title: "IceCream Chrome Extension",
+    Description: "A fast, lightweight Chrome browser extension designed for quick browser utilities, custom popup interface, and interactive user features.",
+    Img: "https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=800&q=80",
+    Link: "https://github.com/Rgauri-31/IceCream_Chrome_Extension",
+    Github: "https://github.com/Rgauri-31/IceCream_Chrome_Extension",
+    Status: "Completed",
+    TechStack: ["JavaScript", "HTML", "CSS", "Chrome Extension API"],
+    Features: [
+      "Custom Popup Interface for Chrome Toolbar",
+      "Fast & Lightweight Browser Integration",
+      "Interactive Quick Tools & Controls"
+    ]
   }
 ];
 
@@ -93,12 +107,8 @@ const ProjectDetails = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const storedProjects = JSON.parse(localStorage.getItem("projects")) || [];
-    let selectedProject = storedProjects.find((p) => String(p.id) === id);
-    
-    if (!selectedProject) {
-      selectedProject = DEFAULT_PROJECTS.find((p) => String(p.id) === id);
-    }
+    const storedProjects = JSON.parse(localStorage.getItem("projects")) || DEFAULT_PROJECTS;
+    const selectedProject = storedProjects.find((p) => String(p.id) === id) || DEFAULT_PROJECTS.find((p) => String(p.id) === id);
     
     if (selectedProject) {
       const enhancedProject = {
