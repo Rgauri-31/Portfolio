@@ -171,8 +171,46 @@ export default function Portfolio() {
   }, []);
 
   /* --------------------------------------------
-     Fetch Data from Supabase
-  --------------------------------------------- */
+   Default Projects Fallback
+--------------------------------------------- */
+const DEFAULT_PROJECTS = [
+  {
+    id: 1,
+    Title: "EduTrack — Term Work Management",
+    Description: "A full-stack academic platform that automates engineering college Term Work (TW) evaluation, student attendance PDF parsing, marks entry, and automated report exports.",
+    Img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80",
+    Link: "https://github.com/Rgauri-31/EduTrack",
+    Github: "https://github.com/Rgauri-31/EduTrack",
+    Status: "Completed",
+    Features: [
+      "Automated PDF & Excel Attendance Parsing",
+      "Role-Based Access (Admin & Teacher Portals)",
+      "Automated TW Score Calculation & Locking",
+      "Excel Report Generation & Export"
+    ],
+    TechStack: ["React 19", "Node.js", "Express", "MongoDB", "Tailwind CSS"]
+  },
+  {
+    id: 2,
+    Title: "FinPilot — Financial Planning Platform",
+    Description: "Interactive personal finance management web app to track budgets, analyze daily expenses, and visualize financial growth through interactive analytics.",
+    Img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+    Link: "https://github.com/Rgauri-31",
+    Github: "https://github.com/Rgauri-31",
+    Status: "Completed",
+    Features: [
+      "Real-time Expense & Income Tracking",
+      "Interactive Financial Charts & Analytics",
+      "Budget Allocation Planner",
+      "Responsive Dark Dashboard"
+    ],
+    TechStack: ["React", "Node.js", "Express", "Tailwind CSS", "Recharts"]
+  }
+];
+
+/* --------------------------------------------
+   Fetch Data from Supabase
+--------------------------------------------- */
   const fetchData = useCallback(async () => {
   try {
     const [projectsResponse, certificatesResponse] = await Promise.all([
@@ -180,10 +218,10 @@ export default function Portfolio() {
       supabase.from("certificates").select("*").order("id", { ascending: true }),
     ]);
 
-    if (projectsResponse.error) throw projectsResponse.error;
-    if (certificatesResponse.error) throw certificatesResponse.error;
-
-    const projectData = projectsResponse.data || [];
+    const projectData = (projectsResponse.data && projectsResponse.data.length > 0) 
+      ? projectsResponse.data 
+      : DEFAULT_PROJECTS;
+      
     const certData = certificatesResponse.data || [];
 
     setProjects(projectData);
@@ -193,6 +231,7 @@ export default function Portfolio() {
     localStorage.setItem("certificates", JSON.stringify(certData));
   } catch (error) {
     console.error("Supabase Fetch Error:", error.message);
+    setProjects(DEFAULT_PROJECTS);
   }
 }, []);
 
