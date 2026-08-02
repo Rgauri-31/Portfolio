@@ -141,7 +141,7 @@ const AboutPage = () => {
 
               {/* Resume Button */}
               <a
-                href="https://drive.google.com/file/d/YOUR_RESUME_LINK/view"
+                href="https://drive.google.com/file/d/1gJj4kyMYYhT5Vet_PEF4FA60cxlFSmg8/view?usp=drive_link"
                 target="_blank"
                 className="w-full lg:w-auto"
               >
